@@ -1,12 +1,12 @@
+import type { ReactElement } from "react";
 import type { Product } from "@/features/cart/domain/cartTypes";
 import { ProductList } from "@/features/products/components/ProductList";
 
 interface ProductPageProps {
   products: Product[];
-  onAddProduct: (product: Product) => void;
 }
 
-export function ProductPage({ products, onAddProduct }: ProductPageProps) {
+export function ProductPage({ products }: ProductPageProps): ReactElement {
   return (
     <section className="page-section" aria-labelledby="products-title">
       <div className="page-heading">
@@ -17,7 +17,7 @@ export function ProductPage({ products, onAddProduct }: ProductPageProps) {
           application.
         </p>
       </div>
-      <ProductList products={products} onAddProduct={onAddProduct} />
+      <ProductList products={products} />
     </section>
   );
 }

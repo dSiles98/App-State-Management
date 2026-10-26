@@ -1,6 +1,6 @@
 # Application State Management Demo
 
-A small React shopping app for studying shared application state. The current implementation is Stage 0, `LocalReactState`: `App` owns the cart with `useState`, and pages and nested components receive cart values and callbacks through props. Stage 1 (Context API and `useReducer`) and Stage 2 (Zustand) are future stages and are not part of the current app.
+A small React shopping app for studying shared application state. The current implementation is Stage 1: the cart uses Context and `useReducer`, while pure domain operations remain independent of React. Stage 0, `LocalReactState`, is retained as historical documentation; Stage 2 (Zustand) is future work.
 
 ## Requirements
 
@@ -48,6 +48,6 @@ state-management/
 
 ## Current state flow
 
-`App.tsx` stores the cart in React local state. It passes product actions through `ProductPage`, `ProductList`, and `ProductCard`. Cart items and callbacks pass through `CartPage`, `CartContents`, and `CartItemRow`. The header count follows `AppLayout`, `SiteHeader`, and `CartLink`. Pure cart transformations live in `features/cart/domain/cartOperations.ts`.
+`App.tsx` composes `CartProvider` around the layout and routes. The provider owns the reducer and exposes a typed `useCart` hook. Pages and list components consume the context where needed; `ProductCard` and `CartItemRow` remain presentational components. Pure cart transformations live in `features/cart/domain/cartOperations.ts`.
 
-See [the architecture guide](state-management/docs/ARCHITECTURE.md) for the full data flow and current limitations. [Future state management stages](state-management/docs/STATE_MANAGEMENT_STAGES.md) describes planned Stage 1 and Stage 2; neither stage has been implemented yet.
+See [the architecture guide](state-management/docs/ARCHITECTURE.md) for the Stage 0 historical record, Stage 1 implementation, trade-offs, and comparison with Zustand. [State management stages](state-management/docs/STATE_MANAGEMENT_STAGES.md) describes the implemented Stage 1 and planned Stage 2.

@@ -1,12 +1,18 @@
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { SiteHeader } from "@/shared/components/SiteHeader";
+import { useCart } from "@/features/cart/state/useCart";
 
 interface AppLayoutProps {
-  cartItemCount: number;
   children: ReactNode;
 }
 
-export function AppLayout({ cartItemCount, children }: AppLayoutProps) {
+export function AppLayout({ children }: AppLayoutProps): ReactElement {
+  const { cartItems } = useCart();
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+
   return (
     <div className="app-shell">
       <SiteHeader cartItemCount={cartItemCount} />

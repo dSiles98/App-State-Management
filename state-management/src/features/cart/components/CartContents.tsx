@@ -1,19 +1,17 @@
+import type { ReactElement } from "react";
 import type { CartItem } from "@/features/cart/domain/cartTypes";
 import { calculateSubtotal } from "@/features/cart/domain/cartOperations";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 import { CartItemRow } from "@/features/cart/components/CartItemRow";
+import { useCart } from "@/features/cart/state/useCart";
 
 interface CartContentsProps {
   cartItems: CartItem[];
-  onRemoveProduct: (productId: string) => void;
-  onUpdateQuantity: (productId: string, quantity: number) => void;
 }
 
-export function CartContents({
-  cartItems,
-  onRemoveProduct,
-  onUpdateQuantity,
-}: CartContentsProps) {
+export function CartContents({ cartItems }: CartContentsProps): ReactElement {
+  const { removeProduct, updateProductQuantity } = useCart();
+
   if (cartItems.length === 0) {
     return (
       <div className="empty-cart">
@@ -30,8 +28,8 @@ export function CartContents({
           <CartItemRow
             key={item.id}
             item={item}
-            onRemoveProduct={onRemoveProduct}
-            onUpdateQuantity={onUpdateQuantity}
+            onRemoveProduct={removeProduct}
+            onUpdateQuantity={updateProductQuantity}
           />
         ))}
       </ul>
