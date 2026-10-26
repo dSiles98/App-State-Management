@@ -10,12 +10,14 @@
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "typecheck": "tsc -b --pretty",
-    "test": "vitest run"
+    "test": "vitest run",
+    "benchmark:state": "node scripts/benchmark-state-management.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-router-dom": "^7.9.1"
+    "react-router-dom": "^7.9.1",
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

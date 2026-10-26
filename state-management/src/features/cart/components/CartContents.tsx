@@ -3,14 +3,17 @@ import type { CartItem } from "@/features/cart/domain/cartTypes";
 import { calculateSubtotal } from "@/features/cart/domain/cartOperations";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 import { CartItemRow } from "@/features/cart/components/CartItemRow";
-import { useCart } from "@/features/cart/state/useCart";
+import { useCartStore } from "@/features/cart/state/cartStore";
 
 interface CartContentsProps {
   cartItems: CartItem[];
 }
 
 export function CartContents({ cartItems }: CartContentsProps): ReactElement {
-  const { removeProduct, updateProductQuantity } = useCart();
+  const removeProduct = useCartStore((state) => state.removeProduct);
+  const updateProductQuantity = useCartStore(
+    (state) => state.updateProductQuantity,
+  );
 
   if (cartItems.length === 0) {
     return (

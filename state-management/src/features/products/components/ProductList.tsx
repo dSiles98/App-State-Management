@@ -1,14 +1,14 @@
 import type { ReactElement } from "react";
 import type { Product } from "@/features/cart/domain/cartTypes";
 import { ProductCard } from "@/features/products/components/ProductCard";
-import { useCart } from "@/features/cart/state/useCart";
+import { useCartStore } from "@/features/cart/state/cartStore";
 
 interface ProductListProps {
   products: Product[];
 }
 
 export function ProductList({ products }: ProductListProps): ReactElement {
-  const { addProduct } = useCart();
+  const addProduct = useCartStore((state) => state.addProduct);
 
   return (
     <div className="product-grid">

@@ -1,6 +1,6 @@
 # Application State Management Demo
 
-A small React shopping app for studying shared application state. The current implementation is Stage 1: the cart uses Context and `useReducer`, while pure domain operations remain independent of React. Stage 0, `LocalReactState`, is retained as historical documentation; Stage 2 (Zustand) is future work.
+A small React shopping app for studying shared application state. The current implementation is Stage 2: Zustand stores the cart and components select the state/actions they need, while pure domain operations remain independent of React. Stages 0 (`LocalReactState`) and 1 (Context API and `useReducer`) are retained as historical documentation.
 
 ## Requirements
 
@@ -48,6 +48,6 @@ state-management/
 
 ## Current state flow
 
-`App.tsx` composes `CartProvider` around the layout and routes. The provider owns the reducer and exposes a typed `useCart` hook. Pages and list components consume the context where needed; `ProductCard` and `CartItemRow` remain presentational components. Pure cart transformations live in `features/cart/domain/cartOperations.ts`.
+`App.tsx` composes the router and layout. The Zustand store lives in `features/cart/state/cartStore.ts`; pages and list components select values from `useCartStore`. `ProductCard` and `CartItemRow` remain presentational components. Pure cart transformations live in `features/cart/domain/cartOperations.ts`.
 
-See [the architecture guide](state-management/docs/ARCHITECTURE.md) for the Stage 0 historical record, Stage 1 implementation, trade-offs, and comparison with Zustand. [State management stages](state-management/docs/STATE_MANAGEMENT_STAGES.md) describes the implemented Stage 1 and planned Stage 2.
+See [the architecture guide](state-management/docs/ARCHITECTURE.md) for Stage 0 and Stage 1 historical records, the Stage 2 implementation, trade-offs, and detailed comparisons. [State management stages](state-management/docs/STATE_MANAGEMENT_STAGES.md) summarizes the current stage and the testing/demo walkthrough.

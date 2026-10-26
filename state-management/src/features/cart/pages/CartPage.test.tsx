@@ -1,9 +1,8 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { CartPage } from "@/features/cart/pages/CartPage";
-import { CartProvider } from "@/features/cart/state/CartContext";
-import { useCart } from "@/features/cart/state/useCart";
+import { useCartStore } from "@/features/cart/state/cartStore";
 import type { Product } from "@/features/cart/domain/cartTypes";
 
 const product: Product = {
@@ -16,7 +15,7 @@ const product: Product = {
 };
 
 function CartPageTestHarness() {
-  const { addProduct } = useCart();
+  const addProduct = useCartStore((state) => state.addProduct);
 
   return (
     <>
@@ -29,12 +28,12 @@ function CartPageTestHarness() {
 }
 
 describe("cart page", () => {
+  beforeEach(() => {
+    useCartStore.setState({ cartItems: [] });
+  });
+
   it("shows the empty cart state", () => {
-    render(
-      <CartProvider>
-        <CartPage />
-      </CartProvider>,
-    );
+    render(<CartPage />);
 
     expect(
       screen.getByRole("heading", { name: "Your cart is empty" }),
@@ -44,25 +43,25 @@ describe("cart page", () => {
   it("updates quantity and subtotal, then removes the product", async () => {
     const user = userEvent.setup();
 
-    render(
-      <CartProvider>
-        <CartPageTestHarness />
-      </CartProvider>,
-    );
+    render(<CartPageTestHarness />);
 
-    await user.click(screen.getByRole("button", { name: "Add sample product" }));
+    await user.click(
+      screen.getByRole("button", { name: "Add sample product" }),
+    );
     fireEvent.change(
       screen.getByRole("spinbutton", { name: "Quantity of Ceramic mug" }),
       { target: { value: "3" } },
     );
 
     expect(
-      within(screen.getByRole("complementary", { name: "Order summary" })).getByText(
-        /30\.00/,
-      ),
+      within(
+        screen.getByRole("complementary", { name: "Order summary" }),
+      ).getByText(/30\.00/),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Remove Ceramic mug" }));
+    await user.click(
+      screen.getByRole("button", { name: "Remove Ceramic mug" }),
+    );
     expect(
       screen.getByRole("heading", { name: "Your cart is empty" }),
     ).toBeInTheDocument();
